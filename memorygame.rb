@@ -1,11 +1,13 @@
 require "pry"
+## CHANGE THIS METHOD
 def round_over?
+  puts "Type 'quit' to finish"
   input = gets.chomp
   if input == "quit"
     return true
   end
 end
-
+#----------------------
 
 def cards_deck
   cards = [ 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8]
@@ -24,7 +26,12 @@ def display_grid
 end
 
 def choose_card
-  gets.chomp.upcase
+  input = gets.chomp.upcase
+  until ("A" .. "P").to_a.include?(input)
+    puts "Enter a valid letter"
+    input = gets.chomp.upcase
+  end
+  return input
 end
 #correct_guesses
 
@@ -36,11 +43,13 @@ end
 #Game
 loop do
 grid = grid_create
-display_grid
-binding.pry
+p grid
+#display_grid
   #single round
   loop do
+    puts "Choose location for first card:"
     first_card = choose_card
+    puts "Choose location for second card:"
     second_card = choose_card
     p grid
     p compare_cards grid, first_card, second_card
