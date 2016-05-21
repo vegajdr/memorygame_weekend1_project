@@ -7,18 +7,24 @@ end
 
 def cards_deck
   cards = [ 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8]
+  
+  # cards = ["§","¶","±","√",
+  # "π", "∞", "⋰", "Ω",
+  # "§", "¶", "±", "√",
+  # "π", "∞", "⋰", "Ω",]
+
 end
 
 def master_grid_create
   cards = cards_deck.shuffle
-  board = ("A".."P").to_a
+  board = ("A".upto "P").to_a
   grid = board.zip(cards).to_h
   #binding.pry
 end
 
 def answer_grid_create
   hash = {}
-  ("A".."P").to_a.each do | i |
+  master_grid_create.keys.to_a.each do | i |
     hash[i] = " "
   end
   return hash
@@ -36,6 +42,7 @@ end
 def display_grid grid
   puts "|" + grid.keys.join("| |") + "|"
   puts " " + grid.values.join("   ") + ""
+  puts "---------------------------------------------------------------"
 end
 
 def clear_answers_grid answers_grid, match, grid_comparison
@@ -51,7 +58,7 @@ end
 
 def choose_card card = nil
   input = gets.chomp.upcase
-  until ("A" .. "P").to_a.include?(input) || input != ""
+  until (("A".upto "P").to_a.include?(input)) || (input != "")
     puts "Enter a valid letter (A to P)"
     input = gets.chomp.upcase
   end
@@ -96,7 +103,7 @@ loop do # New Game start (shuffled deck)
     puts "Choose location for first card:"
     first_card = choose_card
     answer_record first_card, secret_grid, temporary_grid
-    puts "Temporary:"
+    puts "First Card:"
     display_grid temporary_grid
 
     puts "Choose location for second card:"
@@ -104,7 +111,7 @@ loop do # New Game start (shuffled deck)
 
 
     answer_record second_card, secret_grid, temporary_grid
-    puts "Temporary"
+    puts "Second Card:"
     display_grid temporary_grid
     ###Pay attention to location
 
@@ -114,10 +121,10 @@ loop do # New Game start (shuffled deck)
     add_permanent_answers first_card, second_card, match, permanent_grid, secret_grid
     clear_answers_grid temporary_grid, match, permanent_grid
     #-----------------
-    puts "Secret"
-    display_grid secret_grid
+    sleep 3
+    system "clear"
     
-    puts "Permanent"
+    puts "Correct Answers:"
     display_grid permanent_grid
 
     puts "Result of comparison: #{match}" if match
