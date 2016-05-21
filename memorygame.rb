@@ -38,9 +38,13 @@ def display_grid grid
   puts " " + grid.values.join("   ") + ""
 end
 
-def clear_answers_grid answers_grid, match
+def clear_answers_grid answers_grid, match, grid_comparison
   unless match
-    answers_grid.each { |key, value| answers_grid[key] = nil}
+    answers_grid.each do |key, value| 
+      if grid_comparison[key] != answers_grid[key]
+        answers_grid[key] = " "
+      end
+    end
   end
 
 end
@@ -76,8 +80,8 @@ def answer_record card, secret_grid, answer_grid
 end
 
 game_over = false
-#Game
-loop do
+
+loop do # New Game start (shuffled deck)
   secret_grid = master_grid_create
   answers_grid = answer_grid_create
   permanent_grid = answer_grid_create
@@ -87,11 +91,8 @@ loop do
   # sleep 1
   # system "clear"
   #
-#PERMANENT  PLUS  INPUT
-  #binding.pry
-  #display_grid
-  #single round
-  loop do
+
+  loop do # Single round
     puts "Choose location for first card:"
     first_card = choose_card
     answer_record first_card, secret_grid, temporary_grid
@@ -111,19 +112,16 @@ loop do
     match = compare_cards secret_grid, first_card, second_card
 
     add_permanent_answers first_card, second_card, match, permanent_grid, secret_grid
-    #clear_answers_grid temporary_grid, match
+    clear_answers_grid temporary_grid, match, permanent_grid
     #-----------------
     puts "Secret"
     display_grid secret_grid
+    
     puts "Permanent"
     display_grid permanent_grid
 
     puts "Result of comparison: #{match}" if match
-    #answers_display secret_grid, match, answers_grid
-    ## IF match is true then answers_grid gets cleared
-    #binding.pry
-    #record_match
-    #replay
+    
     break if round_over? permanent_grid, secret_grid
   end
   break if game_over
