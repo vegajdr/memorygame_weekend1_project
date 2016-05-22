@@ -11,41 +11,40 @@ def round_over? permanent_grid, secret_grid#If all cards are guessed
 end
 #----------------------
 
-def difficulty
-  #return a hash
-  hash = {}
-  input = gets.chomp 
-  if input.downcase == "easy"
-    hash["D"] = 2
-  elsif input.downcase == "medium"
-    hash["H"] = 4
-  elsif input.downcase == "hard"
-    hash["P"] = 8
-  end
-  hash
+# def difficulty
+#   #return a hash
+#   hash = {}
+#   input = gets.chomp 
+#   if input.downcase == "easy"
+#     hash["D"] = 2
+#   elsif input.downcase == "medium"
+#     hash["H"] = 4
+#   elsif input.downcase == "hard"
+#     hash["P"] = 8
+#   end
+#   hash
   
-end
+# end
 
-mode = difficulty
+# mode = difficulty
 #binding.pry
 
 def cards_deck
   cards = [ 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8]
   
-  hand1 = Hand.new
-  deck1 = Deck.new
+  # hand1 = Hand.new
+  # deck1 = Deck.new
 
-  hand2 = Hand.new
-  deck2 = Deck.new
+  # hand2 = Hand.new
+  # deck2 = Deck.new
 
-  hand1.draw(deck1, 5)
-  hand2.draw(deck2, 5)
+  # hand1.draw(deck1, 5)
+  # hand2.draw(deck2, 5)
   
-  hand1.each do | i |
-    cards.push i
-  end
+  # hand1.each do | i |
+  #   cards.push i
+  #end
     
-  binding.pry
   return cards
 #puts hand.inspect
   # cards = ["§","¶","±","√",
