@@ -9,8 +9,8 @@ include RubyCards
 def round_over? permanent_grid, secret_grid#If all cards are guessed
   over = false
   if permanent_grid == secret_grid
-    sleep 3
-    system "clear"
+    sleep 2
+    
     puts "You have WON!"
     over = true
   end
@@ -22,15 +22,26 @@ def difficulty
   #return a hash
   puts "Please type 'easy', 'medium' or 'hard' to set your difficulty"
   hash = {}
-  input = gets.chomp 
-  if input.downcase == "easy"
-    
-    hash["D"] = 2
-  elsif input.downcase == "medium"
-    hash["H"] = 4
-  elsif input.downcase == "hard"
-    hash["P"] = 8
+  input = gets.chomp
+  until input == "easy" || input == "medium" || input == "hard"
+    puts "Please type 'easy', 'medium' or 'hard' to set your difficulty"
+    input = gets.chomp
   end
+  
+    if input.downcase == "easy"
+      
+      hash["D"] = 2
+    elsif input.downcase == "medium"
+      hash["H"] = 4
+    elsif input.downcase == "hard"
+      hash["P"] = 8
+    # else
+    #   puts "Please type correct mode"
+    #   input = gets.chomp.downcase
+    end
+    
+  #end
+  
   hash
   
 end
@@ -142,18 +153,20 @@ game_over = false
 
 
 loop do # New Game start (shuffled deck)
+  #system "clear"
   mode = difficulty
   secret_grid = master_grid_create mode
   answers_grid = answer_grid_create secret_grid
   permanent_grid = answer_grid_create secret_grid
   temporary_grid = answer_grid_create secret_grid
   # puts "You have 5 seconds to memorize this deck"
-  display_grid secret_grid
+  # display_grid secret_grid
   # sleep 1
   # system "clear"
   #
 
   loop do # Single round
+    #system "clear"
     puts "Choose location for first card:"
     first_card = choose_card mode
     answer_record first_card, secret_grid, temporary_grid
@@ -165,6 +178,7 @@ loop do # New Game start (shuffled deck)
 
 
     answer_record second_card, secret_grid, temporary_grid
+    system "clear"
     puts "Second Card:"
     display_grid temporary_grid
     ###Pay attention to location
@@ -174,15 +188,19 @@ loop do # New Game start (shuffled deck)
 
     add_permanent_answers first_card, second_card, match, permanent_grid, secret_grid
     clear_answers_grid temporary_grid, match, permanent_grid
+    if match
+      puts "You have found a pair, Good job!"
+    else
+      puts "Your cards did not match, Try again!"
+    end
     #-----------------
-    sleep 1
-    system "clear"
+    sleep 3
+    #system "clear"
     
     puts "Correct Answers:"
     display_grid permanent_grid
 
-    puts "Result of comparison: #{match}" if match
-    
+
     break if round_over? permanent_grid, secret_grid
   end
   break if game_over
