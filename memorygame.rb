@@ -52,29 +52,33 @@ end
 def cards_deck mode
   cards = []
   
-  (1..mode.values.first).to_a.each do | n |
-    cards.push n
-  end
+  # (1..mode.values.first).to_a.each do | n |
+  #   cards.push n
+  # end
   
-  (1..mode.values.first).to_a.each do | n |
-    cards.push n
-  end
-    #cards.push
+  # (1..mode.values.first).to_a.each do | n |
+  #   cards.push n
+  # end
+  #   #cards.push
   
   
-  # hand1 = Hand.new
-  # deck1 = Deck.new
+  hand1 = Hand.new
+  deck1 = Deck.new
 
-  # hand2 = Hand.new
-  # deck2 = Deck.new
+  hand2 = Hand.new
+  deck2 = Deck.new
 
-  # hand1.draw(deck1, 5)
-  # hand2.draw(deck2, 5)
+  hand1.draw(deck1, mode.values.first)
+  hand2.draw(deck2, mode.values.first)
   
-  # hand1.each do | i |
-  #   cards.push i
-  #end
+  hand1.each do | i |
+    cards.push i
+  end
     
+  hand2.each do | i |
+    cards.push i
+  end
+  
   return cards.shuffle
 end
 
@@ -104,8 +108,13 @@ end
 
 def display_grid grid
   puts "|" + grid.keys.join("| |") + "|"
-  puts " " + grid.values.join("   ") + ""
-  puts "---------------------------------------------------------------"
+  # puts " " + grid.values.join("   ") + ""
+  # puts "---------------------------------------------------------------"
+  
+  puts grid.values
+  grid.each do |key, value|
+    print grid[key]
+  end
 end
 
 def clear_answers_grid answers_grid, match, grid_comparison
@@ -133,7 +142,7 @@ def choose_card card = nil, mode
 end
 
 def compare_cards grid, card1, card2
-  grid[card1] == grid[card2]
+  grid[card1] == grid[card2] and grid[card1].suit == grid[card2].suit
 
 end
 
@@ -182,10 +191,14 @@ loop do # New Game start (shuffled deck)
     puts "Second Card:"
     display_grid temporary_grid
     ###Pay attention to location
-
+    
 
     match = compare_cards secret_grid, first_card, second_card
-
+    
+    puts "Secret Grid!"
+    display_grid secret_grid
+    
+binding.pry
     add_permanent_answers first_card, second_card, match, permanent_grid, secret_grid
     clear_answers_grid temporary_grid, match, permanent_grid
     if match
